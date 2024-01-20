@@ -1,8 +1,19 @@
 import { render } from "./render.ts"
 import { mounted, created } from "./lifeCycle.ts"
 
-const _mount = ({cssSelector, component, parentElement}) => {
-    let appWrap = document.querySelector(cssSelector) || parentElement
+const _mount = (
+    {cssSelector, component, parentElement}:
+    {
+        cssSelector:string,
+        component: {
+            template:string;
+            script:string;
+            style:string;
+        },
+        parentElement?: Node
+    }
+) => {
+    let appWrap:(Node | undefined) = document.querySelector(cssSelector) || parentElement
     if(!appWrap || !component) return
 
     const {
@@ -19,16 +30,19 @@ const _mount = ({cssSelector, component, parentElement}) => {
     mounted()
 }
 
-export const createApp = (component) => 
-{
+export const createApp = (component:{
+    template:string;
+    script:string;
+    style:string;
+}) => {
     return {
         component,
-        mount: (cssSelector) => _mount({cssSelector, component})
+        mount: (cssSelector:string) => _mount({cssSelector, component})
     }
 }
 
 
-export const createComponent = (componentString) => 
+export const createComponent = (componentString:string) => 
 {
     let component = {}
     let tempElement = document.createElement('div')
@@ -46,6 +60,7 @@ export const createComponent = (componentString) =>
         let node = childNodes[i]
         if(node.nodeType === 1){
             component[node.tagName.toLowerCase()] = node.innerHTML.trim()
+            component.render = render
         }
     }
     

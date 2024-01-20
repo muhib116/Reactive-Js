@@ -45,7 +45,7 @@ export function generateVirtualDOM (HTMLString: string):VDOM[] {
     const generatedVDOMS = []
     let tempTag = document.createElement('div')
     tempTag.innerHTML = HTMLString.trim()
-    if(tempTag.childNodes.length){
+    if(tempTag.childNodes || tempTag.childNodes.length){
         generatedVDOMS.push(..._prepareChildNodesVDOM(tempTag.childNodes))
         return generatedVDOMS
     }
