@@ -1,5 +1,5 @@
 import { createApp } from './framework/index.js'
-import Home from '@/pages/home.ts'
+import Home from '@/pages/home.js'
 import './index.css'
 
 const app = createApp(Home)

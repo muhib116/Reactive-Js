@@ -21,11 +21,16 @@ export const _stringTemplateToHTML = (componentString) => {
     return parsedTemplate
 }
 
-export const _getVNode = (node) => {
+export const _getVNode = (node, setupScript) => {
     const tempElement = document.createElement('div')
     tempElement.innerHTML = node.trim()
 
     const childNodes = tempElement.childNodes
-    const vNode = getVNode(childNodes)
+    const vNode = getVNode(childNodes, setupScript)
     return vNode
+}
+
+export const _extractVariables = (expression) => {
+    const variableRegex = /\b\w+\(.*\)|\b\w+\b/g
+    return expression.match(variableRegex) || []
 }

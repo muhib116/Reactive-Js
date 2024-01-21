@@ -1,15 +1,7 @@
-import { handleExpression, handleAttribute } from '../jsHandler/jsBinder.js'
-
 function _generateChildNodeContents(contents, tag, setupScript) {
     for (let i = 0; i < contents?.length; i++) {
         if(typeof contents[i] ==='string') {
-            let text = document.createTextNode(
-                handleExpression({
-                    stringContent: contents[i],
-                    parentElement: tag, 
-                    setupScript
-                })
-            )
+            let text = document.createTextNode(contents[i])
             tag.appendChild(text)
         }else if(typeof contents[i] === 'object') {
             tag.appendChild(_generateVNodeToDOM(contents[i], setupScript))
@@ -19,12 +11,7 @@ function _generateChildNodeContents(contents, tag, setupScript) {
 
 function _generateVNodeToDOM (VirtualNode, setupScript) {
     if(!VirtualNode.tagName){
-        return document.createTextNode(
-            handleExpression({
-                stringContent: VirtualNode.contents[0],
-                setupScript
-            })
-        )
+        return document.createTextNode(VirtualNode.contents[0])
     }
 
 

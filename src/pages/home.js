@@ -5,9 +5,9 @@ export default createComponent({
         <template>
             <div class="container mx-auto p-10">
                 <h1 $show="myName" class="text-3xl font-bold">
-                    Hello {{ myName }}
+                    Hello {{ price + commission + 'Muhib' }}
                 </h1>
-                **{{ myName }}**
+                {{ price + commission + 50 }}
                 <h1 $if='true' class="text-red-500 text-4xl font-bold">
                     {{ myName }}
                 </h1>
@@ -40,8 +40,14 @@ export default createComponent({
             'nasrullah',
             'mahsinullah'
         ],
-        _print(text: string): void {
+        price: 100,
+        commission: 10,
+        _print(text) {
             console.log(text)
+        },
+        getName(){
+            console.log('name printed...');
+            return 'Hashi akter'
         },
         mounted(){
             console.log(this, 'mounted');

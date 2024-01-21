@@ -1,23 +1,33 @@
-let regex = /({{\s*)(.*)(\s}})/ig
+import { _extractVariables } from '../helpers.js'
 
-export const handleExpression = ({stringContent, parentElement, setupScript}) => 
-{
-    if(parentElement?.tagName?.toLowerCase() !== 'script' && stringContent.search(regex) >= 0)
-    {
+const regex = /\{\{\s*(.*?)\s*\}\}/g
+
+export const handleTemplateExpression = (stringContent, setupScript) => {
+    if (regex.test(stringContent)) {
         let stringMatch = _extractExpression(stringContent)
-        return setupScript[stringMatch]
+        const varFromUserProvidedExpression = _extractVariables(stringMatch)
+
+
+        /**
+         * need to destructure an object dynamically
+         */
+
+        // for(let i = 0; i < varFromUserProvidedExpression.length; i++)
+        // {
+        //     const property = varFromUserProvidedExpression[i]
+        //     let value = setupScript[property] || property
+        //     stringMatch = stringMatch.replace(new RegExp(property, 'g'), value)
+        //     console.log(property);
+        // }
+
+
+        // return stringContent.replace(regex, eval(stringMatch))
     }
     return stringContent
 }
 
-
 function _extractExpression(text) {
     const regex = /\{\{\s*(.*?)\s*\}\}/g
-    return regex.exec(text)[1]
+    const match = regex.exec(text)
+    return match ? match[1] : null
 }
-
-export const handleAttribute = () => {
-    console.log(working);
-}
-
-export const domeRegistry = {}

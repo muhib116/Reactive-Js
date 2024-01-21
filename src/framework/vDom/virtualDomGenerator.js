@@ -1,6 +1,6 @@
 import { keyWordsWithAction } from '../jsHandler/keywords.js'
 import { handleDirectives } from '../jsHandler/handleDirectives.js'
-
+import { handleTemplateExpression } from '../jsHandler/jsBinder.js'
 
 /**
  * this is a helper function of "_generateVNode" function, 
@@ -45,7 +45,7 @@ function _prepareChildNodesVNodes (ArrayOfNodes, setupScript) {
         }else if(node.nodeType === 3 && node.textContent.trim())
         {
             // string logic process here
-            let textContent = node.textContent
+            let textContent = handleTemplateExpression(node.textContent, setupScript)
             vNodes.push({
                 tagName: '',
                 attributes: {},
