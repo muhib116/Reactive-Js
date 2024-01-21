@@ -8,7 +8,8 @@ import { handleTemplateExpression } from '../jsHandler/jsBinder.js'
  * @param {*} attributes 
  * @returns object like: {attributes: {}, logic: {}}
  */
-function _prepareAttribute (attributes, setupScript) {
+function _prepareAttribute (attributes, setupScript) 
+{
     let _attributes = {}
     let _logicParts = {}
 
@@ -19,11 +20,15 @@ function _prepareAttribute (attributes, setupScript) {
          * this skip it for handle with framework logic
          */
         if(keyWordsWithAction.hasOwnProperty(attributes[i].name)){
-            _logicParts = handleDirectives(attributes[i], setupScript)
+            _logicParts = {
+                ..._logicParts,
+                ...handleDirectives(attributes[i], setupScript)
+            }
         } else {
             _attributes[attributes[i].name] = attributes[i].value
         }
     }
+
     return {
         attributes: _attributes,
         logicParts: _logicParts
@@ -33,13 +38,13 @@ function _prepareAttribute (attributes, setupScript) {
 /**
  * prepare VNode for a wrapper VNode from real DOM, 
  * data came like: DOM.children
- * @param {*} ArrayOfNodes 
+ * @param {*} ArrayOfvNodes 
  * @returns array of virtual nodes
  */
-function _prepareChildNodesVNodes (ArrayOfNodes, setupScript) {
+function _prepareChildNodesVNodes (ArrayOfvNodes, setupScript) {
     let vNodes = []
-    for (let i = 0; i < ArrayOfNodes.length; i++) {
-        let node = ArrayOfNodes[i]
+    for (let i = 0; i < ArrayOfvNodes.length; i++) {
+        let node = ArrayOfvNodes[i]
         if(node.nodeType === 1){
             vNodes.push(_generateVNode(node.outerHTML, setupScript))
         }else if(node.nodeType === 3 && node.textContent.trim())
@@ -85,14 +90,14 @@ export const _generateVNode = (HTMLString, setupScript) => {
 
 /**
  * this is a starter function to generate VNode from DOM Elements
- * @param {*} ArrayOfNodes 
+ * @param {*} ArrayOfvNodes 
  * @returns array of VNode
  */
-export function getVNode (ArrayOfNodes, setupScript) {
+export function getVNode (ArrayOfvNodes, setupScript) {
     const generatedVNodes = []
 
-    if(ArrayOfNodes || ArrayOfNodes.length){
-        generatedVNodes.push(..._prepareChildNodesVNodes(ArrayOfNodes, setupScript))
+    if(ArrayOfvNodes || ArrayOfvNodes.length){
+        generatedVNodes.push(..._prepareChildNodesVNodes(ArrayOfvNodes, setupScript))
         return generatedVNodes
     }
     return []

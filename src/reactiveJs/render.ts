@@ -1,7 +1,6 @@
 import { handleExpression } from './jsBinder.ts'
 import { VDOM } from './types.ts'
 import { generateVirtualDOM } from './virtualDomGenerator.ts'
-import { domeRegistry } from './jsBinder.ts'
 
 function _generateChildNodeContents(contents: (string | object)[], tag: Node): void 
 {

@@ -1,6 +1,4 @@
-import { _extractVariables } from '../helpers.js'
-
-const regex = /\{\{\s*(.*?)\s*\}\}/g
+import { _extractVariables, _expressionExecutor } from '../helpers.js'
 
 export const handleTemplateExpression = (stringContent, setupScript) => {
     const regex = /\{\{\s*(.*?)\s*\}\}/g;
@@ -9,15 +7,16 @@ export const handleTemplateExpression = (stringContent, setupScript) => {
   
     if (matches) {
       for (const match of matches) {
-        let variableExpression = _extractExpression(match);
-        const variables = _extractVariables(variableExpression);
+        let expression = _extractExpression(match);
+        // const variables = _extractVariables(expression);
   
-        for (const variable of variables) {
-            const value = setupScript[variable] !== undefined ? `setupScript.${variable}` : variable;
-            variableExpression = variableExpression.replace(new RegExp(variable, 'g'), value);
-        }
+        // for (const variable of variables) {
+        //   const value = setupScript[variable] !== undefined ? `setupScript.${variable}` : variable;
+        //   expression = expression.replace(new RegExp(variable, 'g'), value);
+        // }
         
-        stringContent = stringContent.replace(match, eval(variableExpression));
+        expression = _expressionExecutor(expression, setupScript)
+        stringContent = stringContent.replace(match, eval(expression));
       }
     }
   

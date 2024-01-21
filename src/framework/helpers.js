@@ -31,7 +31,23 @@ export const _getVNode = (node, setupScript) => {
 }
 
 export const _extractVariables = (expression) => {
-    console.log({expression});
     const variableRegex = /\b\w+\b/g;
     return expression.match(variableRegex) || [];
+}
+
+/**
+ * 
+ * @param {*} expression: user provided expression like {{ price + 10 + 'tk }} or price > 10
+ * @param {*} setupScript: user provided script
+ * @returns string bindings with setupScript so that eval function can execute
+ */
+export const _expressionExecutor = (expression, setupScript) => {
+    const variables = _extractVariables(expression);
+
+    for (const variable of variables) {
+        const value = setupScript[variable] !== undefined ? `setupScript.${variable}` : variable;
+        expression = expression.replace(new RegExp(variable, 'g'), value);
+    }
+
+    return expression
 }
