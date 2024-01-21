@@ -31,6 +31,7 @@ export const _getVNode = (node, setupScript) => {
 }
 
 export const _extractVariables = (expression) => {
-    const variableRegex = /\b\w+\(.*\)|\b\w+\b/g
-    return expression.match(variableRegex) || []
+    console.log({expression});
+    const variableRegex = /\b\w+\b/g;
+    return expression.match(variableRegex) || [];
 }

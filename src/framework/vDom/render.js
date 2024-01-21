@@ -14,7 +14,6 @@ function _generateVNodeToDOM (VirtualNode, setupScript) {
         return document.createTextNode(VirtualNode.contents[0])
     }
 
-
     let tag
     if(VirtualNode.tagName?.toLowerCase() == 'svg'){
         const svgNS = "http://www.w3.org/2000/svg"

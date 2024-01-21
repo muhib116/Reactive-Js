@@ -3,27 +3,25 @@ import { _extractVariables } from '../helpers.js'
 const regex = /\{\{\s*(.*?)\s*\}\}/g
 
 export const handleTemplateExpression = (stringContent, setupScript) => {
-    if (regex.test(stringContent)) {
-        let stringMatch = _extractExpression(stringContent)
-        const varFromUserProvidedExpression = _extractVariables(stringMatch)
-
-
-        /**
-         * need to destructure an object dynamically
-         */
-
-        // for(let i = 0; i < varFromUserProvidedExpression.length; i++)
-        // {
-        //     const property = varFromUserProvidedExpression[i]
-        //     let value = setupScript[property] || property
-        //     stringMatch = stringMatch.replace(new RegExp(property, 'g'), value)
-        //     console.log(property);
-        // }
-
-
-        // return stringContent.replace(regex, eval(stringMatch))
+    const regex = /\{\{\s*(.*?)\s*\}\}/g;
+  
+    const matches = stringContent.match(regex);
+  
+    if (matches) {
+      for (const match of matches) {
+        let variableExpression = _extractExpression(match);
+        const variables = _extractVariables(variableExpression);
+  
+        for (const variable of variables) {
+            const value = setupScript[variable] !== undefined ? `setupScript.${variable}` : variable;
+            variableExpression = variableExpression.replace(new RegExp(variable, 'g'), value);
+        }
+        
+        stringContent = stringContent.replace(match, eval(variableExpression));
+      }
     }
-    return stringContent
+  
+    return stringContent;
 }
 
 function _extractExpression(text) {

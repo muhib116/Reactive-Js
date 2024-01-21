@@ -4,13 +4,17 @@ export default createComponent({
     template:`
         <template>
             <div class="container mx-auto p-10">
+                
                 <h1 $show="myName" class="text-3xl font-bold">
-                    Hello {{ price + commission + 'Muhib' }}
+                    {{ commission = 50 }}
+                    total: {{ price + commission + myName }}-
+                    {{ getName(getDes()) }}
                 </h1>
-                {{ price + commission + 50 }}
+                <!--{{ price + commission + 50 }}
                 <h1 $if='true' class="text-red-500 text-4xl font-bold">
-                    {{ myName }}
+                    {{ myName + ' ansary }}
                 </h1>
+                -->
                 
                 <button 
                     class="px-4 py-2 rounded shadow border border-red-500 bg-red-500 text-white hover:text-red-500 hover:bg-white"
@@ -42,12 +46,15 @@ export default createComponent({
         ],
         price: 100,
         commission: 10,
+        getDes(){
+            return 'mrs'
+        },
         _print(text) {
             console.log(text)
         },
-        getName(){
+        getName(pref){
             console.log('name printed...');
-            return 'Hashi akter'
+            return pref+' Hashi akter'
         },
         mounted(){
             console.log(this, 'mounted');
